@@ -1,0 +1,103 @@
+﻿<Window x:Class="WpfLab3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfLab3"
+        mc:Ignorable="d"
+        Title="Матричный калькулятор" Height="582.3" Width="906.6" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="536*"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Файл">
+                <MenuItem Header="A1" ></MenuItem>
+                <Separator />
+                <MenuItem Header="Выйти" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Вид" >
+                <MenuItem Header="Матрицы">
+                    <MenuItem x:Name="show_only_checked_mx" Unchecked="Show_only_checked_mx_Unchecked"  Checked="Show_only_checked_mx_Checked"  IsCheckable="True" Header="Показать только отмеченные">
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="116*"/>
+                <ColumnDefinition Width="46*"/>
+                <ColumnDefinition Width="415*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="171*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="96*"/>
+                <RowDefinition Height="96*"/>
+            </Grid.RowDefinitions>
+
+            <ListView x:Name="operations"  Grid.Column="0" Grid.Row="2" Grid.RowSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Operation" />
+                    </GridView>
+                </ListView.View>
+                <Label x:Name="transpose" Content="Транспонировать" ToolTip="Транспонировать выделенную матрицу"/>
+                <Label x:Name="summ" Content="Суммировать" ToolTip="Сумировать отмеченные матрицы"/>
+                <Label x:Name="multiply"  Content="Перемножить" ToolTip="Перемножить отмеченные матрицы"/>
+            </ListView>
+
+            <DataGrid CanUserAddRows="False" AutoGenerateColumns="False" SelectedCellsChanged="Matrix_grid_SelectedCellsChanged" Loaded="grid_Loaded" CanUserReorderColumns="False" x:Name="matrix_grid" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" SelectionMode="Single"  SelectionUnit="Cell">
+
+            </DataGrid>
+            <DataGrid x:Name="result_grid" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" />
+            <WrapPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
+            <Button x:Name="result" Click="Result_Click" Content="Рассчитать"/>
+                <Button x:Name="save_result" Click="Save_result_Click" ToolTip="Сохраняет результат в выделенную матрицу" Content="Сохранить"/>
+                </WrapPanel>
+                    <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="18*"/>
+                    <RowDefinition Height="209*"/>
+                    <RowDefinition Height="17*"/>
+                    <RowDefinition Height="17*"/>
+                    <RowDefinition Height="15*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="21*"/>
+                    <ColumnDefinition Width="35*"/>
+                    <ColumnDefinition Width="0*"/>
+                    <ColumnDefinition Width="32*"/>
+                </Grid.ColumnDefinitions>
+                <ListBox x:Name="list_matrixes" SelectionChanged="Matrixes_SelectionChanged"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" SelectionMode="Single" Grid.RowSpan="2">
+
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <WrapPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                                <Label Content="{Binding name}"></Label>
+                                <CheckBox Margin="15,0,0,0" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" >
+                                    <CheckBox.IsChecked>
+                                        <Binding Path="isChoosed"></Binding>
+                                    </CheckBox.IsChecked>
+                                </CheckBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+                <Button x:Name="add"  Click="Add_Click"  Grid.Row="3" Grid.Column="1" Content="+" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                <Button x:Name="remove" Click="Remove_Click" Grid.Row="3" Grid.Column="3" Content="-" Grid.RowSpan="2"/>
+                <TextBox x:Name="col_inp" Grid.ColumnSpan="1" Grid.Row="3" Grid.Column="0" Text="12" Grid.RowSpan="1" FontSize="8" VerticalContentAlignment="Bottom" />
+                <TextBox x:Name="row_inp" Grid.ColumnSpan="1" Grid.Row="4" Grid.Column="0" Text="22" Grid.RowSpan="1" FontSize="8" VerticalContentAlignment="Bottom" />
+                <TextBox Text = "{Binding ElementName=list_matrixes, Path=SelectedValue.name}" x:Name="matrix_title" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="0" FontSize="14" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom"  />
+                <Button x:Name="change_matrix_title" Click="Change_matrix_title_Click" Grid.Column="3" FontSize="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">ok</Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
